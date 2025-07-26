@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfect Plan</title>
+      <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/128/148/148767.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+         /*nao selecionar*/
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+          }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .screen {
+            display: none;
+            min-height: 100vh; /*100*/
+            align-items: top; /*center*/
+            justify-content: center;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        /* Welcome Screen */
+        .welcome-content {
+            text-align: center;
+            color: white;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .main-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            margin-top: 30px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .benefits {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .benefit {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .benefit .icon {
+            font-size: 1.5rem;
+        }
+
+        @keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+        .start-btn {
+            background: #FF4500;
+            color: white;
+            border: none;
+            padding: 1.4rem 3rem;
+            font-size: 1.4rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: pulse 1.5s infinite;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 107, 107, 0.4);
+        }
+
+        .disclaimer {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+      .destaque { background: linear-gradient(45deg, #ff6b6b, #ff8e8e); }
+
+        /* Quiz Screen */
+       .progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+    transition: width 0.5s ease;
+    width: 0%;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-fill::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -50%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.5) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+        animation: flashPass 1.5s infinite linear;
+}
+
+        .quiz-content {
+            padding-top: 2rem;
+        }
+
+        .question {
+            text-align: center;
+            color: white;
+        }
+
+        .question h2 {
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .question input[type="text"]::placeholder {
+         text-transform: none; 
+     }
+        .question input[type="text"] {
+            width: 100%;
+            max-width: 400px;
+            padding: 1.2rem;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+           text-transform: capitalize;
+        }
+
+        .question input[type="email"]::placeholder {
+         text-transform: none; 
+     }
+        .question input[type="email"] {
+            width: 100%;
+            max-width: 400px;
+            padding: 1.2rem;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        
+        .question input[type="text"]:focus,
+        .question input[type="email"]:focus {
+            outline: none;
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .options {
+            display: grid;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .option {
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            border-radius: 20px;
+            padding: 1.5rem 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #333;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .option:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        .option.selected {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(102, 126, 234, 0.4);
+        }
+
+        .next-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            color: white;
+            border: none;
+            padding: 1.2rem 2rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0.5;
+            pointer-events: none;
+            margin-top: 10px;
+        }
+
+        .next-btn.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .next-btn:hover.active {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Results Screen */
+        .results-content {
+            color: white;
+            text-align: center;
+            animation: fadeInUp 1s ease-out;
+
+        }
+
+        .results-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            margin-top: 2rem;
+        }
+
+        .results-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .results-summary {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .summary-label {
+            font-weight: 500;
+        }
+
+        .summary-value {
+            font-weight: 600;
+            color: #ffeb3b;
+        }
+
+       .transformation-gallery {
+            margin-bottom: 3rem;
+        }
+
+        .transformation-gallery h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            justify-content: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .gallery-img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Countdown Section */
+        .countdown-section {
+            margin-bottom: 3rem;
+            background: rgba(255, 235, 59, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 2px solid #ffeb3b;
+        }
+
+        .countdown-section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            color: #D0021B;
+        }
+
+        .countdown-timer {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .countdown-item {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 1rem;
+            min-width: 80px;
+            backdrop-filter: blur(10px);
+        }
+
+        .countdown-number {
+            display: block;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #ffeb3b;
+            line-height: 1;
+        }
+
+        .countdown-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: white;
+            opacity: 0.8;
+        }
+
+        .pricing-section {
+            margin-bottom: 3rem;
+        }
+
+        .pricing-section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+
+        .pricing-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .card-header h4 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .price {
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            gap: 0.2rem;
+        }
+
+        .currency {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .amount {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .period {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        .card-features {
+            margin-bottom: 2rem;
+        }
+
+        .feature {
+            padding: 0.8rem 0;
+            color: #333;
+            font-size: 1.2rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .feature:last-child {
+            border-bottom: none;
+        }
+
+        .plan-btn {
+            width: 100%;
+            padding: 2rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .basic-btn {
+             background: #FF4500;
+            color: white;
+            animation: pulse 1.5s infinite;
+
+        }
+
+
+
+        .plan-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .urgency-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .guarantee {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .icones {
+      vertical-align: middle;
+}
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes flashPass {
+    0% {
+        left: -50%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+                max-width: 100%;
+            }
+            
+            .main-title {
+                font-size: 1.8rem;
+                margin-bottom: 1rem;
+            }
+            
+            .benefits {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+                margin-bottom: 2rem;
+            }
+            
+            .question h2 {
+                font-size: 1.4rem;
+                margin-bottom: 2rem;
+            }
+            
+            .results-title {
+                font-size: 1.8rem;
+                margin-bottom: 1rem;
+            }
+
+            .results-subtitle {
+                font-size: 1.1rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .pricing-cards {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .pricing-card {
+                padding: 1.5rem;
+                margin: 0;
+            }
+            
+            .gallery {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.8rem;
+            }
+            
+            .gallery-img {
+                height: 100px;
+            }
+            
+            .countdown-timer {
+                gap: 0.8rem;
+                justify-content: center;
+            }
+
+            .countdown-item {
+                min-width: 70px;
+                padding: 0.8rem;
+            }
+            
+            .countdown-number {
+                font-size: 1.8rem;
+            }
+
+            .countdown-label {
+                font-size: 0.7rem;
+            }
+
+            .countdown-section {
+                padding: 1.5rem;
+                margin-bottom: 2rem;
+            }
+
+            .countdown-section h3 {
+                font-size: 1.2rem;
+                margin-bottom: 1rem;
+            }
+
+            .pricing-section {
+                margin-bottom: 2rem;
+            }
+
+            .pricing-section h3 {
+                font-size: 1.3rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .transformation-gallery {
+                margin-bottom: 2rem;
+            }
+
+            .transformation-gallery h3 {
+                font-size: 1.2rem;
+                margin-bottom: 1rem;
+            }
+
+            .summary-item {
+                flex-direction: column;
+                text-align: left;
+                gap: 0.3rem;
+                margin-bottom: 0.8rem;
+            }
+
+            .results-summary {
+                padding: 1.2rem;
+                margin-bottom: 2rem;
+            }
+
+            .card-header h4 {
+                font-size: 1.3rem;
+            }
+
+            .amount {
+                font-size: 2.5rem;
+            }
+
+            .feature {
+                padding: 0.6rem 0;
+                font-size: 1rem;
+            }
+
+            .plan-btn {
+                padding: 2rem;
+                font-size: 1.4rem;
+            }
+
+             .next-btn { margin-top: -10px; }
+
+            .urgency-section {
+                padding: 1.2rem;
+            }
+
+            .guarantee {
+                font-size: 1rem;
+            }
+
+            /* Ajustes específicos para telas muito pequenas */
+            @media (max-width: 480px) {
+                .container {
+                    padding: 8px; /* 8 */
+                }
+
+                .results-title {
+                    font-size: 1.6rem;
+                }
+
+                .results-subtitle {
+                    font-size: 1.2rem;
+                }
+
+                .countdown-number {
+                    font-size: 1.5rem;
+                }
+
+                .countdown-item {
+                    min-width: 60px;
+                    padding: 0.6rem;
+                }
+
+                .gallery {
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 0.5rem;
+                }
+
+                .gallery-img {
+                    height: 100px;
+                }
+
+                .pricing-card {
+                    padding: 1.2rem;
+                }
+
+                .amount {
+                    font-size: 2rem;
+                }
+                  .next-btn { margin-top: -10px; }
+
+       
+
+                   .plan-btn {
+                font-size: 1.3rem;
+            }
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Barra de Progresso Fixa -->
+    <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill"></div>
+    </div>
+
+    <!-- Tela de Boas-vindas -->
+    <div id="welcome-screen" class="screen active">
+        <div class="container">
+            <div class="welcome-content">
+                <h1 class="main-title">Seu Novo Plano Para Chapar a Barriga e Aumentar Bumbum em 15 Dias ✨</h1>
+                <p class="subtitle">Em apenas 2 minutos, nossa Inteligência Artificial ajuda você a conquistar seu corpo dos sonhos.</p>
+                <div class="benefits">
+                    <div class="benefit">
+                        <span><img class="icones" src="https://cdn-icons-png.flaticon.com/128/7505/7505058.png" width="25"></img> Perfeito pra você</span>
+                    </div>
+                    <div class="benefit">
+                        <span>
+                        <img class="icones" src="https://cdn-icons-png.flaticon.com/512/10552/10552529.png" width="25">
+                    Resultados em 2 semanas</span>
+                    </div>
+                    <div class="benefit">
+                        <span><img class="icones" src="https://cdn-icons-png.flaticon.com/512/10552/10552737.png" width="25">
+                        Simples e rápido</span>
+                    </div>
+                </div>
+                <button class="start-btn" onclick="startQuiz()">COMEÇAR AGORA</button>
+                <p class="disclaimer">Mais de 7.000 mulheres já começaram <img class="icones" src="https://cdn-icons-png.flaticon.com/128/6005/6005837.png" width="25"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tela do Quiz -->
+    <div id="quiz-screen" class="screen">
+        <div class="container">
+            <div class="quiz-content">
+                <div class="question-container" id="question-container">
+                    <!-- Perguntas serão inseridas aqui via JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tela de Resultados -->
+    <div id="results-screen" class="screen">
+        <div class="container">
+            <div class="results-content">
+                <h1 class="results-title">🎉 Parabéns <span style="text-transform: capitalize" id="user-name"></span>!</h1>
+                <p class="results-subtitle">Seu plano personalizado está pronto!</p>
+                
+                <div class="results-summary">
+                    <div class="summary-item">
+                        <span class="summary-label">Seu objetivo:</span>
+                        <span class="summary-value" id="weight-goal"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Foco especial:</span>
+                        <span class="summary-value" id="body-goal"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Tempo disponível:</span>
+                        <span class="summary-value" id="time-available"></span>
+                    </div>
+                </div>
+
+                <div class="transformation-gallery">
+                    <h3>Transformação real de mulheres como você:</h3>
+                    <div class="gallery">
+                        <img src="img/1.jpg" class="gallery-img">
+                        <img src="img/2.jpg" class="gallery-img">
+                        <img src="img/3.jpg" class="gallery-img">
+                        <img src="img/4.jpg" class="gallery-img">
+                      </div>
+                </div>
+
+                <div class="countdown-section">
+                    <h3><img class="icones" src="https://cdn-icons-png.flaticon.com/128/1670/1670165.png" width="30">
+                     OFERTA ESPECIAL EXPIRA EM:</h3>
+                    <div class="countdown-timer">
+                        <div class="countdown-item">
+                            <span class="countdown-number" id="hours">00</span>
+                            <span class="countdown-label">HORAS</span>
+                        </div>
+                        <div class="countdown-item">
+                            <span class="countdown-number" id="minutes">00</span>
+                            <span class="countdown-label">MINUTOS</span>
+                        </div>
+                        <div class="countdown-item">
+                            <span class="countdown-number" id="seconds">00</span>
+                            <span class="countdown-label">SEGUNDOS</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pricing-section">
+                    <h3>Receba agora seu plano de transformação:</h3>
+                    <div class="pricing-cards">
+                        <div class="pricing-card basic">
+                            <div class="card-header">
+                                <h4 style="color: #FF8989;">de <s>R$ 197,00</s> por apenas:</h4>
+                                <div class="price">
+                                    <span class="currency">12x de</span>
+                                    <span class="amount">R$ 9,74</span>
+                                    <span class="period">/mês</span>
+                                
+                                     
+                                </div>
+                                <span class="period">Só R$ 0,32 centavos por dia</span>
+                            </div>
+                            <div class="card-features">
+                                <div class="feature">
+                                <img class="icones" src="https://cdn-icons-png.flaticon.com/128/148/148767.png" width="25"> Pagamento único</div>
+                                <div class="feature">
+                                <img class="icones" src="https://cdn-icons-png.flaticon.com/128/148/148767.png" width="25">  Cardápio semanal</div>
+                                <div class="feature">
+                                <img class="icones" src="https://cdn-icons-png.flaticon.com/128/148/148767.png" width="25">  App exclusivo</div>
+                            </div>
+
+                           <button class="plan-btn basic-btn">QUERO RECEBER AGORA!</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="urgency-section">
+                    <p class="guarantee">
+                        <img class="icones" src="https://cdn-icons-png.flaticon.com/128/2490/2490788.png" width="25">
+                     Segurança e Garantia de 15 dias, ou seu dinheiro de volta.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dados do quiz
+         const quizData = [
+            {
+                id: 'dream_body',
+                type: 'multiple',
+                question: 'Se você pudesse estalar os dedos e ter o corpo dos seus sonhos AGORA, como ele seria?',
+                options: [
+                    'Mais leve, com a barriga chapada ✨',
+                    'Com bumbum durinho empinado 🍑',
+                    'Cheia de energia pra tudo 🔥'
+                ]
+            },
+            {
+                id: 'motivation',
+                type: 'multiple',
+                question: 'O que mais te incomoda quando você olha no espelho?',
+                options: [
+                    'A barriga que não diminui 😩',
+                    'A falta de curvas no bumbum 🍑',
+                    'Peso na balança que só aumenta ⚖️',
+                    'A falta de energia no dia a dia 😴'
+                ]
+            },
+            {
+                id: 'weight_goal',
+                type: 'multiple',
+                question: 'Quantos quilos você gostaria de eliminar?',
+                options: [
+                    'Só 3 a 5 kg (quero definir melhor)',
+                    '6 a 10 kg (quero mudança visível)',
+                    '11 a 15 kg (quero me transformar)',
+                    'Mais de 15 kg (uma nova vida)'
+                ]
+            },
+            {
+                id: 'body_goal',
+                type: 'multiple',
+                question: 'Como você gostaria que fosse o seu bumbum?',
+                options: [
+                    'Mais empinado e definido 🍑',
+                    'Maior e mais arredondado 🤩',
+                    'Apenas mais firme e tonificado ✨',
+                    'Está bom assim 👌'
+                ]
+            },
+            {
+                id: 'name',
+                type: 'text',
+               question: '<br>Tudo ótimo até aqui!<br>Qual seu nome? 😊',
+                placeholder: 'Digite seu primeiro nome aqui...'
+            },
+            {
+                id: 'time_available',
+                type: 'multiple',
+                question: 'Quanto tempo você pode se dedicar por dia?',
+                options: [
+                    '5 a 10 minutos (dia corrido) ⏰',
+                    '20 a 30 minutos (me organizo) 📅',
+                    '1 hora (posso dedicar mais) 💪'
+                ]
+            },
+            {
+                id: 'biggest_challenge',
+                type: 'multiple',
+                question: 'Qual é o seu maior desafio para emagrecer?',
+                options: [
+                    'Já tentei e nada funciona 😭',
+                  'Falta de tempo para me cuidar ⏰',
+                    'Não sei por onde começar 🤷‍♀️',
+                    'Falta de motivação e disciplina 😴'                    
+                ]
+            },
+         
+            {
+                id: 'dream_transformation',
+                type: 'multiple',
+                question: 'E como você se imagina e quer estar daqui a 1 mês?',
+                options: [
+                    'Recebendo elogios dos amigos e família 🥰',
+                    'Usando aquela roupa que não serve mais 👗',
+                    'Me sentindo mais confiante em qualquer lugar 🏖️',
+                   'Muito mais leve e realizada 🙋‍'
+                ]
+            },
+
+               {
+                id: 'email',
+                type: 'email',
+               question: '<br>Perfeito!<br>Qual seu melhor e-mail? 💌',
+                placeholder: 'Digite seu e-mail aqui...'
+            },
+
+            {
+                id: 'commitment',
+                type: 'multiple',
+                question: 'Você está comprometida a garantir sua transformação para alcançar o corpo dos seus sonhos?',
+                options: [
+                    'SIM! Estou pronta para mudar minha vida! 🤩',
+                    'Sim, só preciso de um empurrãozinho... 👉',
+                    'Talvez, tenho algumas dúvidas 🤔'
+                ]
+            }
+        ];
+
+        // Estado do quiz
+        let currentQuestion = 0;
+        let answers = {};
+
+        // Elementos DOM
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const quizScreen = document.getElementById('quiz-screen');
+        const resultsScreen = document.getElementById('results-screen');
+        const questionContainer = document.getElementById('question-container');
+        const progressFill = document.getElementById('progress-fill');
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar contador regressivo
+            initCountdown();
+        });
+
+        // Função para iniciar o quiz
+        function startQuiz() {
+            welcomeScreen.classList.remove('active');
+            quizScreen.classList.add('active');
+            showQuestion(0);
+        }
+
+        // Função para mostrar uma pergunta
+        function showQuestion(index) {
+            const question = quizData[index];
+            currentQuestion = index;
+            
+            // Atualizar progresso
+            const progress = ((index + 1) / quizData.length) * 100;
+            progressFill.style.width = progress + '%';
+            
+            // Criar HTML da pergunta
+            let questionHTML = `
+                <div class="question">
+                    <h2>${question.question}</h2>
+            `;
+            
+            if (question.type === 'text') {
+                questionHTML += `
+                    <input type="text" id="text-input" autofocus placeholder="${question.placeholder}" onkeyup="handleTextInput(event)">
+                    <button class="next-btn" id="next-btn" onclick="nextQuestion()">CONTINUAR</button>
+                `;
+            } else if (question.type === 'email') {
+                questionHTML += `
+                    <input type="email" id="email-input" autofocus placeholder="${question.placeholder}" onkeyup="handleEmailInput(event)">
+                    <button class="next-btn" id="next-btn" onclick="nextQuestion()">CONTINUAR</button>
+                `;
+            } else if (question.type === 'multiple') {
+                questionHTML += '<div class="options">';
+                question.options.forEach((option, optionIndex) => {
+                    questionHTML += `
+                        <div class="option" onclick="selectOption(${optionIndex}, '${option}')" data-index="${optionIndex}">
+                            ${option}
+                        </div>
+                    `;
+                });
+                questionHTML += '</div>';
+            }
+            
+            questionHTML += '</div>';
+            questionContainer.innerHTML = questionHTML;
+            
+            // Transição suave
+            questionContainer.style.opacity = '0';
+            questionContainer.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                questionContainer.style.transition = 'all 0.5s ease';
+                questionContainer.style.opacity = '1';
+                questionContainer.style.transform = 'translateY(0)';
+            }, 100);
+        }
+
+        // Função para lidar com input de texto
+        function handleTextInput(event) {
+            const input = event.target;
+            const nextBtn = document.getElementById('next-btn');
+            
+            if (input.value.trim().length > 0) {
+                nextBtn.classList.add('active');
+                answers[quizData[currentQuestion].id] = input.value.trim();
+                
+                // Enter para continuar
+                if (event.key === 'Enter') {
+                    nextQuestion();
+                }
+            } else {
+                nextBtn.classList.remove('active');
+            }
+        }
+
+        // Função para lidar com input de email
+        function handleEmailInput(event) {
+            const input = event.target;
+            const nextBtn = document.getElementById('next-btn');
+            
+            if (input.value.trim().length > 0 && input.value.includes('@')) {
+                nextBtn.classList.add('active');
+                answers[quizData[currentQuestion].id] = input.value.trim();
+                
+                // Enter para continuar
+                if (event.key === 'Enter') {
+                    nextQuestion();
+                }
+            } else {
+                nextBtn.classList.remove('active');
+            }
+        }
+
+        // Função para selecionar opção
+        function selectOption(optionIndex, optionText) {
+            // Remover seleção anterior
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Selecionar nova opção
+            const selectedOption = document.querySelector(`[data-index="${optionIndex}"]`);
+            selectedOption.classList.add('selected');
+            
+            // Salvar resposta
+            answers[quizData[currentQuestion].id] = optionText;
+            
+            // Aguardar um pouco e ir para próxima pergunta
+            setTimeout(() => {
+                nextQuestion();
+            }, 300);
+        }
+
+        // Função para ir para próxima pergunta
+        function nextQuestion() {
+            if (currentQuestion < quizData.length - 1) {
+                showQuestion(currentQuestion + 1);
+            } else {
+                showResults();
+            }
+        }
+
+        // Função para mostrar resultados
+        function showResults() {
+            quizScreen.classList.remove('active');
+            resultsScreen.classList.add('active');
+            
+            // Personalizar resultados
+            document.getElementById('user-name').textContent = answers.name || 'Linda';
+            document.getElementById('weight-goal').textContent = answers.weight_goal || 'Perder peso';
+            document.getElementById('body-goal').textContent = answers.body_goal || 'Melhorar o corpo';
+            document.getElementById('time-available').textContent = answers.time_available || 'Tempo flexível';
+            
+            // Adicionar eventos aos botões de plano
+            document.querySelectorAll('.plan-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    handlePlanSelection();
+                });
+            });
+        }
+
+        // Função para lidar com seleção de plano
+        function handlePlanSelection() {
+            const userName = (answers.name || 'Linda').charAt(0).toUpperCase() + (answers.name || 'Linda').slice(1).toLowerCase();
+            const userEmail = answers.email || '';
+            
+            // Criar URL do checkout com nome e email
+            const checkoutURL = `https://checkout.perfectpay.com.br/pay/PPU38CPSJ8L?name=${encodeURIComponent(userName)}&email=${encodeURIComponent(userEmail)}`;
+            window.open(checkoutURL, '_self');
+            
+            // Feedback visual
+            const button = event.target;
+            const originalText = button.textContent;
+            button.textContent = 'CARREGANDO...';
+            button.style.opacity = '0.7';
+            
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.style.opacity = '1';
+            }, 3000);
+        }
+
+        // Função para inicializar o contador regressivo
+        function initCountdown() {
+            // Definir tempo final (15 minutos a partir de agora)
+            const now = new Date().getTime();
+            const countdownTime = now + (15 * 60 * 1000); // 15 minutos em milissegundos
+            
+            // Atualizar contador a cada segundo
+            const countdownInterval = setInterval(function() {
+                const now = new Date().getTime();
+                const distance = countdownTime - now;
+                
+                // Calcular horas, minutos e segundos
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                // Atualizar display
+                const hoursElement = document.getElementById('hours');
+                const minutesElement = document.getElementById('minutes');
+                const secondsElement = document.getElementById('seconds');
+                
+                if (hoursElement) hoursElement.textContent = hours.toString().padStart(2, '0');
+                if (minutesElement) minutesElement.textContent = minutes.toString().padStart(2, '0');
+                if (secondsElement) secondsElement.textContent = seconds.toString().padStart(2, '0');
+                
+                // Se o tempo acabou
+                if (distance < 0) {
+                    clearInterval(countdownInterval);
+                    if (hoursElement) hoursElement.textContent = "00";
+                    if (minutesElement) minutesElement.textContent = "00";
+                    if (secondsElement) secondsElement.textContent = "00";
+                }
+            }, 1000);
+        }
+    </script>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+<script>
+    var count = 333;
+    var defaults = {
+        origin: { y: 0.7 }
+    };
+
+    function fire(particleRatio, opts) {
+        confetti(Object.assign({}, defaults, opts, {
+            particleCount: Math.floor(count * particleRatio)
+        }));
+    }
+
+    function startConfetti() {
+        fire(0.25, { spread: 26, startVelocity: 55 });
+        fire(0.2, { spread: 60 });
+        fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+        fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
+        fire(0.1, { spread: 120, startVelocity: 45 });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const resultsScreen = document.getElementById('results-screen');
+        let alreadyFired = false;
+
+        if (!resultsScreen) return;
+
+        const observer = new MutationObserver(() => {
+            const style = window.getComputedStyle(resultsScreen);
+            if (!alreadyFired && style.display !== 'none' && style.visibility !== 'hidden' && resultsScreen.offsetParent !== null) {
+                startConfetti();
+                alreadyFired = true; // garante que só dispara uma vez
+            }
+        });
+
+        observer.observe(resultsScreen, { attributes: true, attributeFilter: ['style', 'class'] });
+    });
+</script>
+
+<script>document.addEventListener("contextmenu", e => e.preventDefault());</script>
+
+<script>
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'F12' || event.keyCode === 123) {
+                event.preventDefault(); 
+            }
+        });
+    </script>
+
+</body>
+</html>
+
