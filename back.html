@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Popup ao Pressionar Voltar ou Fechar Navegador</title>
+    <style>
+        /* Estilo para a página de fundo escura */
+        .backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none; /* Inicialmente oculto */
+            z-index: 999;
+        }
+
+        /* Estilo para a popup */
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+            display: none; /* Inicialmente oculta */
+            z-index: 1000;
+        }
+
+        .popup img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .popup h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .popup p {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .popup button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .popup button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Backdrop (fundo escuro) -->
+<div id="backdrop" class="backdrop"></div>
+
+<!-- Popup -->
+<div id="popup" class="popup">
+    <img src="https://via.placeholder.com/150" alt="Imagem da Popup">
+    <h1>Título da Popup</h1>
+    <p>Este é o subtítulo da popup.</p>
+    <button onclick="fecharPopup()">Continuar</button>
+</div>
+
+<script>
+    // Evita o redirecionamento e captura o evento de pressionar "Voltar"
+    history.pushState({}, "", location.href);
+    history.pushState({}, "", location.href);
+
+    window.onpopstate = function () {
+        setTimeout(function () {
+            mostrarPopup(); // Exibe a popup
+        }, 1);
+    };
+
+    // Função para mostrar a popup
+    function mostrarPopup() {
+        document.getElementById('backdrop').style.display = 'block';
+        document.getElementById('popup').style.display = 'block';
+    }
+
+    // Função para fechar a popup
+    function fecharPopup() {
+        document.getElementById('backdrop').style.display = 'none';
+        document.getElementById('popup').style.display = 'none';
+    }
+
+    // Captura o evento de tentar fechar a página ou navegador
+    window.addEventListener('beforeunload', function (e) {
+        mostrarPopup();  // Exibe a popup
+        // O código abaixo não funciona de forma consistente em todos os navegadores, mas faz com que o navegador mostre um aviso ao tentar sair
+        var confirmationMessage = "Tem certeza de que deseja sair?";
+        e.returnValue = confirmationMessage;  // Padrão para navegadores mais antigos
+        return confirmationMessage;  // Para navegadores modernos (como Chrome)
+    });
+</script>
+
+</body>
+</html>
